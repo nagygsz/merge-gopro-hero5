@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
+start_time=$(date +%s)
 
 # Usage: merge_gopro.sh <directory-with-mp4s>
 # Requires: mp4_merge-mac-arm64 located next to this script (same directory)
@@ -109,4 +110,12 @@ for seqfile in "$TMPDIR"/seq_*; do
   rm -f "$sorted"
 done
 
+# --- Time reporting section ---
+end_time=$(date +%s)
+elapsed=$(( end_time - start_time ))
+hours=$(( elapsed / 3600 ))
+minutes=$(( (elapsed % 3600) / 60 ))
+seconds=$(( elapsed % 60 ))
+
 echo "Processing complete. Created or copied ${created} merged video file(s)."
+printf "Total time: %02d:%02d:%02d (hh:mm:ss)\n" "$hours" "$minutes" "$seconds"
