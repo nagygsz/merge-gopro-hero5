@@ -20,8 +20,10 @@ if [ ! -d "$INPUT_DIR" ]; then
   exit 1
 fi
 
-# locate merger next to this script
-SCRIPT_DIR="$(cd ""){BASH_SOURCE[0]}" && pwd)"
+# locate merger next to this script (fixed syntax!)
+SCRIPT_DIR="$(cd ""
+dirname "
+{BASH_SOURCE[0]}" && pwd)"
 MERGER="$SCRIPT_DIR/mp4_merge-mac-arm64"
 if [ ! -x "$MERGER" ]; then
   echo "Error: merger not found or not executable: $MERGER"
@@ -35,7 +37,8 @@ trap 'rm -rf "$TMPDIR"' EXIT
 shopt -s nullglob
 mp4_list=( "$INPUT_DIR"/*.[mM][pP]4 )
 
-if [ "${#mp4_list[@]}" -eq 0 ]; then
+if [ "
+${#mp4_list[@]}" -eq 0 ]; then
   echo "No mp4 files found in $INPUT_DIR"
   exit 0
 fi
@@ -111,5 +114,6 @@ elapsed=$(( end_time - start_time ))
 hours=$(( elapsed / 3600 ))
 minutes=$(( (elapsed % 3600) / 60 ))
 seconds=$(( elapsed % 60 ))
+
 echo "Processing complete. Created or copied ${created} merged video file(s)."
 printf "Total time: %02d:%02d:%02d (hh:mm:ss)\n" "$hours" "$minutes" "$seconds"
